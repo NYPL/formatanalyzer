@@ -17,9 +17,13 @@ def clean_droid(input_csv, output_csv):
 	df = pd.read_csv(input_csv)
 	df = df[df.TYPE == 'File']
 	df['warning'] = df['EXTENSION_MISMATCH'].map({True: 'extension mismatch'})
-	df.drop(['ID', 'PARENT_ID', 'URI', 'FILE_PATH', 'NAME', 'METHOD', 
-		'STATUS', 'TYPE', 'HASH', 'FORMAT_COUNT', 'MIME_TYPE', 'FORMAT_NAME', 
+	df.drop(['ID', 'PARENT_ID', 'URI', 'FILE_PATH', 'NAME', 'METHOD',
+		'STATUS', 'TYPE', 'HASH', 'FORMAT_COUNT', 'MIME_TYPE', 'FORMAT_NAME',
 		'FORMAT_VERSION', 'EXTENSION_MISMATCH'], axis = 1, inplace = True)
+	# Rename fields to be consistent with the Siegfried Format
+	df = df.rename(columns={
+		'SIZE': 'filesize', 'PUID': 'id', 'LAST_MODIFIED': 'modified',
+        'EXT': 'ext'})
 	df = df.sample(frac=1).reset_index(drop=True)
 	df.to_csv(output_csv, index = False)
 

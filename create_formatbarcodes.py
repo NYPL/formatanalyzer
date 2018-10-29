@@ -57,6 +57,7 @@ def create_graphs(input_csv, output_dir, alpha=.2):
                 format_id)
             continue
         axis_.set(xlabel='Last Modified Date', ylabel='Format ID')
+        plt.tight_layout()
         plt.savefig("{}.png".format(os.path.join(output_dir, display_id)))
         plt.close()
 
